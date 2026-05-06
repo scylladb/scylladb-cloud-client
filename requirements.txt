@@ -1,0 +1,2 @@
+# Runtime dependencies for scylladb-cloud-client.
+# The project currently uses only the Python standard library.
