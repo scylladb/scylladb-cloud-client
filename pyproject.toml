@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scylladb-cloud-client"
+dynamic = ["version"]
+description = "Python client and CLI for the public ScyllaDB Cloud API"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+  { name = "ScyllaDB Cloud Client Contributors" }
+]
+license = { text = "Apache-2.0" }
+dependencies = []
+
+[project.scripts]
+scylladb-cloud-client = "scylladb_cloud_client.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = {file = "VERSION"}
