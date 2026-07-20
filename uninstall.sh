@@ -25,16 +25,16 @@ assert_owned_by_effective_user_if_exists() {
 }
 
 remove_symlink_if_present() {
-  _path=$1
-  _missing_message=$2
+  symlink_path=$1
+  missing_message=$2
 
-  if [ -L "${_path}" ]; then
-      rm "${_path}"
-      echo "Removed ${_path}"
-  elif [ -e "${_path}" ]; then
-      echo "Leaving ${_path}: path exists but is not a symlink" >&2
+  if [ -L "${symlink_path}" ]; then
+      rm "${symlink_path}"
+      echo "Removed ${symlink_path}"
+  elif [ -e "${symlink_path}" ]; then
+      echo "Leaving ${symlink_path}: path exists but is not a symlink" >&2
   else
-      echo "${_missing_message}"
+      echo "${missing_message}"
   fi
 }
 
