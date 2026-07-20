@@ -16,13 +16,13 @@ class PackagingTests(unittest.TestCase):
         self.assertIn('version = {file = "VERSION"}', pyproject)
         self.assertNotIn('version = "0.1.0"', pyproject)
 
-    def test_installer_manages_scc_alias_symlink(self):
+    def test_install_script_creates_scc_alias_symlink(self):
         install_script = (self.project_root / "install.sh").read_text(encoding="utf-8")
 
         self.assertIn('BIN_ALIAS="${BIN_DIR}/scc"', install_script)
         self.assertIn('ln -sf "${VENV_DIR}/bin/scylladb-cloud-client" "${BIN_ALIAS}"', install_script)
 
-    def test_uninstaller_manages_scc_alias_symlink(self):
+    def test_uninstall_script_removes_scc_alias_symlink(self):
         uninstall_script = (self.project_root / "uninstall.sh").read_text(encoding="utf-8")
 
         self.assertIn('BIN_ALIAS="${PREFIX}/bin/scc"', uninstall_script)
