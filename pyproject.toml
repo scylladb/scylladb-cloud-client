@@ -16,6 +16,7 @@ dependencies = []
 
 [project.scripts]
 scylladb-cloud-client = "scylladb_cloud_client.cli:main"
+scc = "scylladb_cloud_client.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

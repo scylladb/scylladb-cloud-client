@@ -5,6 +5,7 @@ PREFIX="${1:-${PREFIX:-/usr/local}}"
 
 VENV_DIR="${PREFIX}/lib/scylladb-cloud-client"
 BIN_LINK="${PREFIX}/bin/scylladb-cloud-client"
+BIN_ALIAS="${PREFIX}/bin/scc"
 
 die() {
   echo "uninstall.sh: $*" >&2
@@ -26,7 +27,17 @@ assert_owned_by_effective_user_if_exists() {
 echo "Uninstalling scylladb-cloud-client from ${PREFIX}"
 
 assert_owned_by_effective_user_if_exists "$BIN_LINK"
+assert_owned_by_effective_user_if_exists "$BIN_ALIAS"
 assert_owned_by_effective_user_if_exists "$VENV_DIR"
+
+if [ -L "${BIN_ALIAS}" ]; then
+    rm "${BIN_ALIAS}"
+    echo "Removed ${BIN_ALIAS}"
+elif [ -e "${BIN_ALIAS}" ]; then
+    echo "Leaving ${BIN_ALIAS}: path exists but is not a symlink" >&2
+else
+    echo "No CLI alias symlink found at ${BIN_ALIAS}"
+fi
 
 if [ -L "${BIN_LINK}" ]; then
     rm "${BIN_LINK}"
