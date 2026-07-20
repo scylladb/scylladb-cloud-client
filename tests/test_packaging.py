@@ -22,12 +22,15 @@ class PackagingTests(unittest.TestCase):
         self.assertIn('scylladb-cloud-client = "scylladb_cloud_client.cli:main"', pyproject)
         self.assertIn('scc = "scylladb_cloud_client.cli:main"', pyproject)
 
-    def test_installer_and_uninstaller_manage_scc_alias_symlink(self):
+    def test_installer_manages_scc_alias_symlink(self):
         install_script = (self.project_root / "install.sh").read_text(encoding="utf-8")
-        uninstall_script = (self.project_root / "uninstall.sh").read_text(encoding="utf-8")
 
         self.assertIn('BIN_ALIAS="${BIN_DIR}/scc"', install_script)
         self.assertIn('ln -sf "${VENV_DIR}/bin/scylladb-cloud-client" "${BIN_ALIAS}"', install_script)
+
+    def test_uninstaller_manages_scc_alias_symlink(self):
+        uninstall_script = (self.project_root / "uninstall.sh").read_text(encoding="utf-8")
+
         self.assertIn('BIN_ALIAS="${PREFIX}/bin/scc"', uninstall_script)
         self.assertIn('remove_symlink_if_present "${BIN_ALIAS}"', uninstall_script)
 
