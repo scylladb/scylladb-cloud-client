@@ -5,6 +5,7 @@ PREFIX="${1:-${PREFIX:-/usr/local}}"
 
 VENV_DIR="${PREFIX}/lib/scylladb-cloud-client"
 BIN_LINK="${PREFIX}/bin/scylladb-cloud-client"
+BIN_ALIAS="${PREFIX}/bin/scc"
 
 die() {
   echo "uninstall.sh: $*" >&2
@@ -23,19 +24,28 @@ assert_owned_by_effective_user_if_exists() {
   fi
 }
 
+remove_symlink_if_present() {
+  symlink_path=$1
+  missing_message=$2
+
+  if [ -L "${symlink_path}" ]; then
+      rm "${symlink_path}"
+      echo "Removed ${symlink_path}"
+  elif [ -e "${symlink_path}" ]; then
+      echo "Leaving ${symlink_path}: path exists but is not a symlink" >&2
+  else
+      echo "${missing_message}"
+  fi
+}
+
 echo "Uninstalling scylladb-cloud-client from ${PREFIX}"
 
 assert_owned_by_effective_user_if_exists "$BIN_LINK"
+assert_owned_by_effective_user_if_exists "$BIN_ALIAS"
 assert_owned_by_effective_user_if_exists "$VENV_DIR"
 
-if [ -L "${BIN_LINK}" ]; then
-    rm "${BIN_LINK}"
-    echo "Removed ${BIN_LINK}"
-elif [ -e "${BIN_LINK}" ]; then
-    echo "Leaving ${BIN_LINK}: path exists but is not a symlink" >&2
-else
-    echo "No CLI symlink found at ${BIN_LINK}"
-fi
+remove_symlink_if_present "${BIN_ALIAS}" "No CLI alias symlink found at ${BIN_ALIAS}"
+remove_symlink_if_present "${BIN_LINK}" "No CLI symlink found at ${BIN_LINK}"
 
 if [ -d "${VENV_DIR}" ]; then
     rm -rf "${VENV_DIR}"

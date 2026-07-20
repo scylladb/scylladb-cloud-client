@@ -8,6 +8,7 @@ SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 VENV_DIR="${PREFIX}/lib/scylladb-cloud-client"
 BIN_DIR="${PREFIX}/bin"
 BIN_LINK="${BIN_DIR}/scylladb-cloud-client"
+BIN_ALIAS="${BIN_DIR}/scc"
 
 die() {
   echo "install.sh: $*" >&2
@@ -50,13 +51,16 @@ assert_owned_by_effective_user_if_exists "${PREFIX}/lib"
 assert_owned_by_effective_user_if_exists "$VENV_DIR"
 assert_owned_by_effective_user_if_exists "$BIN_DIR"
 assert_owned_by_effective_user_if_exists "$BIN_LINK"
+assert_owned_by_effective_user_if_exists "$BIN_ALIAS"
 assert_parent_writable_owned_for_target "$VENV_DIR"
 assert_parent_writable_owned_for_target "$BIN_LINK"
+assert_parent_writable_owned_for_target "$BIN_ALIAS"
 
 "${PYTHON}" -m venv "${VENV_DIR}"
 "${VENV_DIR}/bin/python" -m pip install --upgrade "${SCRIPT_DIR}"
 mkdir -p "${BIN_DIR}"
 ln -sf "${VENV_DIR}/bin/scylladb-cloud-client" "${BIN_LINK}"
+ln -sf "${VENV_DIR}/bin/scylladb-cloud-client" "${BIN_ALIAS}"
 
 cat <<EOF
 

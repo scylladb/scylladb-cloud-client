@@ -13,7 +13,8 @@ Installation
 ------------
 
 The installer creates a private virtualenv at
-`<prefix>/lib/scylladb-cloud-client` and symlinks the CLI into `<prefix>/bin`.
+`<prefix>/lib/scylladb-cloud-client` and symlinks both `scylladb-cloud-client`
+and `scc` into `<prefix>/bin`.
 
 Unless you run as root, the installer refuses to touch paths under `PREFIX`
 that already exist but are not owned by you (so a normal user does not
@@ -55,6 +56,7 @@ List supported public operations:
 
 ```sh
 scylladb-cloud-client operations list
+scc operations list
 ```
 
 Show operation metadata:
