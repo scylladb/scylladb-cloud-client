@@ -60,7 +60,7 @@ assert_parent_writable_owned_for_target "$BIN_ALIAS"
 "${VENV_DIR}/bin/python" -m pip install --upgrade "${SCRIPT_DIR}"
 mkdir -p "${BIN_DIR}"
 ln -sf "${VENV_DIR}/bin/scylladb-cloud-client" "${BIN_LINK}"
-ln -sf "${BIN_LINK}" "${BIN_ALIAS}"
+ln -sf "${VENV_DIR}/bin/scylladb-cloud-client" "${BIN_ALIAS}"
 
 cat <<EOF
 
