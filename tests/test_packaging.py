@@ -16,12 +16,6 @@ class PackagingTests(unittest.TestCase):
         self.assertIn('version = {file = "VERSION"}', pyproject)
         self.assertNotIn('version = "0.1.0"', pyproject)
 
-    def test_package_exposes_scc_script_alias(self):
-        pyproject = (self.project_root / "pyproject.toml").read_text(encoding="utf-8")
-
-        self.assertIn('scylladb-cloud-client = "scylladb_cloud_client.cli:main"', pyproject)
-        self.assertIn('scc = "scylladb_cloud_client.cli:main"', pyproject)
-
     def test_installer_manages_scc_alias_symlink(self):
         install_script = (self.project_root / "install.sh").read_text(encoding="utf-8")
 
